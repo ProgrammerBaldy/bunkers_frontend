@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Login from "../views/Login.vue";
+import Logout from "../views/Logout.vue";
 import Supplies from "../views/Supplies.vue";
 
 Vue.use(VueRouter);
@@ -9,20 +11,30 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: {
+        requiresLogin: true
+    }
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login
+  },
+  {
+    path: "/logout",
+    name: "logout",
+    component: Logout
   },
   {
     path: "/supplies",
     name: "supplies",
-    component: Supplies
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: function() {
-      return import("../views/About.vue");
+    component: Supplies,
+    meta: {
+        requiresLogin: true
     }
-  }
+  },
+  { path: "*", component: Login }
 ];
 
 const router = new VueRouter({

@@ -16,7 +16,7 @@
                         <div class="dropdown-item">
                             <ul class="dropdown-ul">
                                 <li class="dropdown-li"><a href="#" class="dropdown-link"><i class="fa fa-cog mr-2"></i>Perfil</a></li>
-                                <li class="dropdown-li"><a href="#" class="dropdown-link"><i class="fa fa-sign-out-alt mr-2"></i>Log Out</a></li>
+                                <li class="dropdown-li"><router-link to = "/logout" exact ><a href="#" class="dropdown-link"><i class="fa fa-sign-out-alt mr-2"></i>Log Out</a></router-link></li>
                             </ul>
                         </div>
                     </div>

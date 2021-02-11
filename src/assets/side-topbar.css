@@ -23,7 +23,7 @@
 .wrapper .sidebar{
   width: 200px;
   height: 100%;
-  background: rgb(59, 58, 48);
+  background: #1f1f1f;
   padding: 0px 0px;
   position: fixed;
 }
@@ -50,7 +50,7 @@
   display: block;
 }
 
-.wrapper .sidebar ul li a .fas{
+.wrapper .sidebar ul li i .fas{
   width: 25px;
 }
 
@@ -58,7 +58,11 @@
   background-color: #717171;
 }
     
-.wrapper .sidebar ul li:hover a{
+.wrapper .sidebar ul li:hover i{
+  color: #fff;
+}
+
+.wrapper .sidebar ul li:hover .router-link{
   color: #fff;
 }
 

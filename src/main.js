@@ -2,10 +2,35 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "./assets/side-topbar.css"
+import store from './store'
+import IdleVue from 'idle-vue'
+
+const eventsHub = new Vue()
+
+Vue.use(IdleVue, {
+    eventEmitter: eventsHub,
+    idleTime: 300000
+})
+
 Vue.config.productionTip = false;
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresLogin)) {
+        if (!store.getters.loggedIn) {
+            next({ name: 'login' })
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
+})
+
+store.dispatch('localAuth')
 
 new Vue({
   router,
+  store,
   render: function(h) {
     return h(App);
   }

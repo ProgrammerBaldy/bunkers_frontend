@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <div class="wrapper ">
+    <div v-if="$route.path == '/login'">
+        <router-view class="main_component_app" />
+    </div>
+
+    <div v-else class="wrapper">
         <SideBar/>
         <div class="main_content">
             <TopNav/>
@@ -14,18 +18,19 @@ import SideBar from "@/components/SideBar.vue"
 import TopNav from "@/components/TopNav.vue"
 export default {
     name: "App",
-    components: {
+    components: { 
         SideBar,
         TopNav
     }
 }
+
 </script>
 
 <style lang="scss">
 @import "~bulma";
 
 .main_component_app {
-    background-color: #d0d0d0;
+    background-color: #e2e2e2;
     width: 100%;
     height: 100vh;
 }

@@ -8,22 +8,27 @@
 
 <script>
 import { getAPI } from '../axios-api'
+import { mapState } from 'vuex'
 
 export default {
   name: "Supplies",
-  data () {
-      return {
-          APIData: []
-      }
+  onIdle () {
+      this.$store.dispatch('refreshToken').then( () => {
+          console.log("Called the refresh!")
+      }).catch( err => {
+          alert(err)
+      } )
   },
   created () {
-      getAPI.get('/supplies/',).then(response=> {
-          console.log("Puxei, galado!")
-          this.APIData = response.data
+      getAPI.get('/supplies/', {
+          headers: { Authorization: `Bearer ${this.$store.state.accessToken}`}
+      }).then(response=> {
+          this.$store.state.APIData = response.data
       }).catch(err => {
           alert(err)
       })
   },
+  computed: mapState(['APIData']),
   components: {
   }
 }
