@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
-/*
-    Main Color: 
-    rgb(252, 227, 5);
-    #fce205;
-
-*/
 * {
   margin: 0;
   padding: 0;
@@ -120,4 +114,7 @@
 
 .wrapper .main_content .info div{
   margin-bottom: 20px;
+}
+.user-menu {
+    text-align: right;
 }

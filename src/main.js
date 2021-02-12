@@ -1,7 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import "./assets/side-topbar.css"
 import store from './store'
 import IdleVue from 'idle-vue'
 

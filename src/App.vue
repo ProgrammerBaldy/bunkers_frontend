@@ -1,38 +1,38 @@
 <template>
-  <div id="app">
-    <div v-if="$route.path == '/ailton'">
-        <router-view class="main_component_app" />
-    </div>
-
-    <div v-else class="wrapper">
-        <SideBar/>
-        <div class="main_content">
+    <div id="app">
+        <div v-if="this.$router.currentRoute.name != 'login'">
+            <SideTopBars />
             <TopNav/>
-            <router-view class="main_component_app" />
         </div>
+            <router-view class="main-content" />
     </div>
-  </div>
 </template>
+
 <script>
-import SideBar from "@/components/SideBar.vue"
+import SideTopBars from "@/components/SideTopBars.vue"
 import TopNav from "@/components/TopNav.vue"
 export default {
     name: "App",
-    components: { 
-        SideBar,
+    components: {
+        SideTopBars,
         TopNav
-    }
+    },
+    /*
+    onIdle () {
+        this.$store.dispatch('refreshToken').then( () => {
+            console.log("Called the refresh!")
+        }).catch( err => {
+            alert(err)
+        } )
+    },*/
 }
 
 </script>
 
 <style lang="scss">
-@import "~bulma";
-
-.main_component_app {
-    background-color: #e2e2e2;
-    width: 100%;
+#app {
+    background: #f1f1f1;
+    font-size: 16px;
     height: 100vh;
 }
-
 </style>

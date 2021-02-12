@@ -1,0 +1,105 @@
+
+.sidebar {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:200px;
+    height:100%;
+    background:#151719;
+    transition:all 300ms linear;
+}
+.sidebar.active {
+    left:-200px;
+}
+.sidebar .toggle-btn:hover {
+    cursor:pointer;
+}
+.sidebar ul li {
+    padding:15px 10px;
+    border-bottom:1px solid #444;
+    color:#fcfcfc;
+    font-size:15px;
+}
+
+.sidebar ul li{
+    padding: 15px;
+    border-bottom: 1px solid #717171;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    text-align: left;
+}
+
+.sidebar ul li a{
+    color: #717171;
+    display: block;
+}
+
+.sidebar ul li i .fas{
+    width: 25px;
+}
+
+.sidebar ul li:hover{
+    background-color: #717171;
+}
+    
+.sidebar ul li:hover i{
+    color: #fff;
+}
+
+.sidebar ul li:hover .router-link{
+    color: #fff;
+}
+
+.sidebar ul li:hover .router-link{
+    color: #fff;
+}
+
+.dontshow {
+    display: none;
+}
+/*
+  .topnav {
+      background: #151719;
+      width: 100%;
+      overflow: hidden;
+      position:absolute;
+      left:200px;
+      top:0px;
+      padding: 30px 600px;
+  } */
+.topnav {
+    padding: 18px;
+    background-image: url('./cimento_arthur.jpeg');
+    color: #717171;
+}
+.sidebar .toggle-btn {
+    position:absolute;
+    left:220px;
+    top:20px;
+}
+  
+.dropdown-link {
+    color: #717171;
+}
+
+.dropdown-trigger:hover {
+    color: black;
+}
+
+.dropdown-li {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    margin-bottom: 1px;
+}
+
+.dropdown-li:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu .dropdown-content {
+    background-image: url('./cimento_arthur.jpeg');
+}
+
+.dropdown-menu .dropdown-content {
+    width: 120px;
+    text-align: left;
+}
