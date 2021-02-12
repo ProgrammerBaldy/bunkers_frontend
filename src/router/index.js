@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
 import Supplies from "../views/Supplies.vue";
+import Ailton from "../views/Ailton.vue";
 
 Vue.use(VueRouter);
 
@@ -30,6 +31,14 @@ const routes = [
     path: "/supplies",
     name: "supplies",
     component: Supplies,
+    meta: {
+        requiresLogin: true
+    },
+  },
+  {
+    path: "/ailton",
+    name: "ailton",
+    component: Ailton,
     meta: {
         requiresLogin: true
     }
