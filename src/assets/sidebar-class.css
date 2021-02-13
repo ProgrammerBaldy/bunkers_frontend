@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 :root {
     font-size: 13px;
     font-family: 'Open Sans';
@@ -8,6 +9,9 @@
     --transition-speed: 600ms;
   }
   
+* {
+  font-family: 'Josefin Sans', sans-serif;
+}
   body {
     color: black;
     background-color: white;
@@ -116,7 +120,9 @@
   }
   
   .navbar:hover .logo i {
-    transform: rotate(-450deg);
+    margin-left: 75%!important;
+    transform: rotate(-360deg);
+    color:#eaf824!important;
   }
   
   .dark {
@@ -178,10 +184,6 @@
   
     .nav-link {
       justify-content: center;
-    }
-  
-    .main-content {
-      margin: 0;
     }
   }
   

@@ -65,7 +65,7 @@ export default new Vuex.Store({
             }
         },
         refreshToken(context) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 getAPI.post('/api-token-refresh/', {
                     refresh: localStorage.getItem('ApiRefreshKey')
                 }).then(response => {
@@ -73,7 +73,7 @@ export default new Vuex.Store({
                     resolve()
                 }).catch(err => {
                     console.log(err)
-                    reject(err)
+                    context.commit('destroyToken')
                 })
             })
         }

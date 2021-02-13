@@ -3,8 +3,11 @@
         <div v-if="this.$router.currentRoute.name != 'login'">
             <SideTopBars />
             <TopNav/>
-        </div>
             <router-view class="main-content" />
+        </div>
+        <div v-else>
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 

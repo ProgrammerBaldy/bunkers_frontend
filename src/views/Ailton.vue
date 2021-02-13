@@ -110,5 +110,4 @@ export default {
 
 <style>
 @import '../assets/sidebar-class.css';
-
 </style>
