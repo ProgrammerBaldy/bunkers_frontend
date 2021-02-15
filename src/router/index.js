@@ -14,7 +14,7 @@ const routes = [
     name: "Home",
     component: Home,
     meta: {
-        requiresLogin: true
+      requiresLogin: true
     }
   },
   {
@@ -32,15 +32,15 @@ const routes = [
     name: "supplies",
     component: Supplies,
     meta: {
-        requiresLogin: true
-    },
+      requiresLogin: true
+    }
   },
   {
     path: "/ailton",
     name: "ailton",
     component: Ailton,
     meta: {
-        requiresLogin: true
+      requiresLogin: true
     }
   },
   { path: "*", component: Login }

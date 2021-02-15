@@ -1,31 +1,30 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from './store'
-import IdleVue from 'idle-vue'
-
-const eventsHub = new Vue()
+import store from "./store";
+import IdleVue from "idle-vue";
+const eventsHub = new Vue();
 
 Vue.use(IdleVue, {
-    eventEmitter: eventsHub,
-    idleTime: 300000
-})
+  eventEmitter: eventsHub,
+  idleTime: 300000
+});
 
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresLogin)) {
-        if (!store.getters.loggedIn) {
-            next({ name: 'login' })
-        } else {
-            next()
-        }
+  if (to.matched.some(record => record.meta.requiresLogin)) {
+    if (!store.getters.loggedIn) {
+      next({ name: "login" });
     } else {
-        next()
+      next();
     }
-})
+  } else {
+    next();
+  }
+});
 
-store.dispatch('localAuth')
+store.dispatch("localAuth");
 
 new Vue({
   router,

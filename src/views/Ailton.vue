@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
     <h1>CSS is Cool</h1>
 
     <p>
@@ -99,15 +99,15 @@
       street art normcore, edison bulb farm-to-table pour-over taxidermy
       brooklyn.
     </p>
-    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "ailton",
-}
+  name: "ailton"
+};
 </script>
 
 <style>
-@import '../assets/sidebar-class.css';
+@import "../assets/sidebar-class.css";
 </style>
