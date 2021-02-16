@@ -116,7 +116,7 @@ export default {
 }
 .kpi {
   display: flex;
-  box-shadow: 2px 5px rgba(0, 0, 0, 0.171);
+  box-shadow: 3px 6px 10px #888888;
   border-radius: 5px;
   border: 1px solid rgb(0, 0, 0);
 }
@@ -172,15 +172,15 @@ export default {
   width: 100%;
 }
 .danger {
-  background: #ab1811;
+  background: hsl(348, 100%, 61%);
 }
 .success {
-  background: #60f731;
+  background: hsl(141, 71%, 48%);
 }
 .blue {
-  background: #3e3ef7;
+  background: hsl(204, 86%, 53%);
 }
 .warning {
-  background: #eaf824;
+  background: hsl(48, 100%, 67%);
 }
 </style>
