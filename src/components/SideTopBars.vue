@@ -16,7 +16,7 @@
         </li>
 
         <li class="nav-item">
-          <router-link to="/ailton" exact class="nav-link">
+          <router-link to="/produtos/" exact class="nav-link">
             <i class="fas fa-boxes"></i>
             <span class="link-text">Produtos</span>
           </router-link>

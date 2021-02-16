@@ -32,6 +32,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import './assets/global-styles.css';
 #app {
   background: #f1f1f1;
   font-size: 16px;
