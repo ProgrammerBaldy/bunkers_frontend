@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="myrow">
-        <div class="card warning active">
+        <div class="card warning inactive">
             <div class="myrow">
                 <div class="card-icon">
                     <i class="fa fa-pizza-slice"></i>
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="card success inactive">
+        <div class="card success active">
             <div class="myrow">
                 <div class="card-icon">
                     <i class="fa fa-boxes"></i>
@@ -34,8 +34,11 @@
     </div>
     <div class="container2 mt">
     <vue-table-dynamic :params="params" @cell-change="onCellChange" ref="table">
-      <template v-slot:column-6="{ props }">
-        <button class="primary">{{props.cellData}}--{{props.row}}--{{props.column}}</button>
+      <template v-slot:column-4="{ props }">
+        <div class="myrow">
+        <button class="blue tableicon" v-on:click="edit(props.cellData)"><i class="fa fa-edit"></i></button>
+          <button class="danger tableicon" v-on:click="edit(props.cellData)"><i class="fa fa-trash"></i></button>
+        </div>
       </template>
     </vue-table-dynamic>
     </div>
@@ -44,20 +47,14 @@
 
 <script>
 import VueTableDynamic from 'vue-table-dynamic'
+import { getAPI } from "../../axios-api";
+import { mapState } from "vuex";
 export default {
   name: 'Demo',
   data() {
     return {
       params: {
-        data: [
-          ['Produto', 'Preço de Venda R$', 'Custo de Fabricação R$', 'Lucro R$', 'Unidade de Medida', 'Quantidade em Estoque', 'Ação'],
-          ['Pizza 4 Queijos', '30,00', '13,00', '17,00', 'Unidade', '3', ''],
-          ['Pizza 5 Queijos', '31,00', '13,00', '18,00', 'Unidade', '1', ''],
-          ['Pizza 6 Queijos', '32,00', '13,00', '19,00', 'Unidade', '3', ''],
-          ['Pizza 7 Queijos', '33,00', '13,00', '20,00', 'Unidade', '4', ''],
-          ['Pizza 8 Queijos', '34,00', '13,00', '21,00', 'Unidade', '5', ''],
-          ['Pizza 9 Queijos', '35,00', '13,00', '22,00', 'Unidade', '0', '']
-        ],
+        data: '',
         header: 'row',
         border: true,
         stripe: true,
@@ -74,8 +71,22 @@ export default {
       }
     }
   },
+  created() {
+    getAPI
+      .get("/supplies/", {
+        headers: { Authorization: `Bearer ${this.$store.state.accessToken}` }
+      })
+      .then(response => {
+        this.params.data = response.data.raw_data;
+        console.log(response.data.raw_data)
+      })
+  },
   components: { VueTableDynamic },
+  computed : mapState(["APIData"]),
   methods: {
+    edit: function (id) {
+      console.log('the id was: '+id)
+    },
     onCellChange (rowIndex, columnIndex, data) {
       console.log('onCellChange: ', rowIndex, columnIndex, data)
       console.log('table data: ', this.$refs.table.getData())
@@ -85,6 +96,12 @@ export default {
 </script>
 
 <style>
+  .tableicon {
+    padding: 5px;
+    border-radius: 5px;
+    color: black;
+    width: 30px
+  }
   .mt {
       margin-top: 1em;
   }
