@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="kpis-container">
-      <div class="kpi danger">
+      <div class="kpi mydanger">
         <div class="kpi-body">
           <div class="myrow">
             <div class="kpi-icon">
@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div class="kpi success">
+      <div class="kpi mysuccess">
         <div class="kpi-body">
           <div class="myrow">
             <div class="kpi-icon">

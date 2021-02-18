@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div v-on:click="getTable('supplies')" v-bind:class="{ active: is_SupplyActive, inactive: !is_SupplyActive}" class="card success">
+        <div v-on:click="getTable('supplies')" v-bind:class="{ active: is_SupplyActive, inactive: !is_SupplyActive}" class="card mysuccess">
             <div class="myrow">
                 <div class="card-icon">
                     <i class="fa fa-boxes"></i>
@@ -37,17 +37,23 @@
         <div v-if="table_visibility" class="customtable" id="customtable">
             <div v-if="is_SupplyActive">
                 <div class="mycolumn">
-                    <div class="to-end">
-                        <button class="success mt" v-on:click="callAddModal()" @click="$refs.addSupply.openModal()"><i class="fa fa-plus"></i>Adicionar</button>
-                    </div>
                     <div>
                         <vue-table-dynamic :params="params" @cell-change="onCellChange" ref="table">
                             <template v-slot:column-4="{ props }">
-                                <div class="myrow">
-                                <button class="danger tableicon" v-on:click="delete_cell(props.cellData)"><i class="fa fa-trash"></i></button>
+                              <div class="myrow">
+                                <div class="mydanger button" v-on:click="delete_cell(props.cellData)">
+                                  <i class="far fa-trash-alt text-black"></i>
                                 </div>
+                              </div>
                             </template>
                         </vue-table-dynamic>
+                    </div>
+                    <div class="to-end">
+                        <div class="mysuccess mt button">
+                          <div class="myrow">
+                            <div v-on:click="callAddModal()" @click="$refs.addSupply.openModal()"><i class="fa fa-plus mr"></i>Adicionar</div>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,7 +62,7 @@
                   <template v-slot:column-4="{ props }">
                     <div class="myrow">
                         <button class="blue tableicon" v-on:click="edit(props)"><i class="fa fa-edit"></i></button>
-                        <button class="danger tableicon" v-on:click="delete_cell(props.cellData)"><i class="fa fa-trash"></i></button>
+                        <button class="mydanger tableicon" v-on:click="delete_cell(props.cellData)"><i class="fa fa-trash"></i></button>
                     </div>
                   </template>
                 </vue-table-dynamic>
@@ -66,7 +72,7 @@
                     <template v-slot:column-4="{ props }">
                         <div class="myrow">
                           <button class="blue tableicon" v-on:click="edit(props)"><i class="fa fa-edit"></i></button>
-                          <button class="danger tableicon" v-on:click="delete_cell(props.cellData)"><i class="fa fa-trash"></i></button>
+                          <button class="mydanger tableicon" v-on:click="delete_cell(props.cellData)"><i class="fa fa-trash"></i></button>
                         </div>
                     </template>
                 </vue-table-dynamic>
@@ -80,44 +86,32 @@
       </template>
 
       <template v-slot:body>
-          <div class="myrow">
-            <label for="name" class="label">Login</label>
-
-                <input
-                name="username"
-                type="text"
-                placeholder="Seu usuário"
-                class="input"
-                id="name"
-                required
-                />
-            <label for="name" class="label">Login</label>
-
-                <input
-                name="username"
-                type="text"
-                placeholder="Seu usuário"
-                class="input"
-                id="name"
-                required
-                />
-            <label for="name" class="label">Login</label>
-
-                <input
-                name="username"
-                type="text"
-                placeholder="Seu usuário"
-                class="input"
-                id="name"
-                required
-                />
-          </div>
+        <div class="modal-form">
+            <div class="mycolumn">
+              <label for="name">Nome</label>
+              <input class="form-control" v-model="supply_name" type="text" id="name" required placeholder="Farinha de Trigo, azeitona..">
+            </div>
+            <div class="mycolumn">
+              <label for="measure_unit">Unidade de Medida</label>
+              <input class="form-control" type="text" v-model="supply_measure_unit" id="measure_unit" required placeholder="kg, ml..">
+            </div>
+            <div class="mycolumn">
+              <label for="stock">Quantidade em Estoque</label>
+              <input class="form-control" type="number" min="0" step="0.01" v-model="supply_stock" id="stock" required placeholder="1.00, 3, 5.45...">
+            </div>
+            <div class="mycolumn">
+              <label for="average_cost">Custo Médio</label>
+              <input class="form-control" type="number" min="0" step="0.01" v-model="supply_average_cost" id="average_cost" required placeholder="1.00, 3, 5.45...">
+            </div>
+        </div>
       </template>
 
       <template v-slot:footer>
         <div>
-          <button @click="$refs.addSupply.closeModal()">Cancel</button>
-          <button @click="$refs.addSupply.closeModal()">Save</button>
+          <div class="myrow">
+            <div class="button mydanger" @click="$refs.addSupply.closeModal()"><i class="fa fa-ban mr text-black"></i><span class="text-black regular-font">Cancelar</span></div>
+            <div class="button mysuccess" @click="addSupply();$refs.addSupply.closeModal();"><i class="fa fa-save mr text-black"></i><span class="text-black regular-font">Salvar</span></div>
+          </div>
         </div>
       </template>
     </Modal>
@@ -137,6 +131,10 @@ export default {
       is_SupplyActive: false,
       table_visibility: false,
       active_view: '',
+      supply_name: '',
+      supply_measure_unit: '',
+      supply_stock: '',
+      supply_average_cost: '',
       header_keys: [],
       params: {
         data: '',
@@ -160,6 +158,26 @@ export default {
   },
   components: { VueTableDynamic, Modal },
   methods: {
+    addSupply: function () {
+      this.toogleLoading()
+      this.table_visibility = false
+      let data_obj = {
+          "name" : this.supply_name,
+          "measure_unit" : this.supply_measure_unit,
+          "stock" : this.supply_stock,
+          "average_cost" : this.supply_average_cost
+      }
+      getAPI.post("/"+this.active_view+"/", data_obj, {
+              headers: {
+                  Authorization: `Bearer ${this.$store.state.accessToken}`
+              }
+          }, 
+      ).then( () => {
+        this.getTable(this.active_view)
+      }).finally(
+        ()=>{ this.toogleLoading() }
+      )
+    },
     edit: function (props) {
       // loop through props.rowData to get the values
       console.log(props)
@@ -168,6 +186,8 @@ export default {
 
     },
     delete_cell: function (props) {
+        this.toogleLoading()
+        this.table_visibility = false
         switch (this.active_view) {
             case 'supplies':
             case 'subproducts':
@@ -187,14 +207,16 @@ export default {
             }, 
         ).then( () => {
           this.getTable(this.active_view)
-        })
+        }).finally(
+          ()=>{ this.toogleLoading() }
+        )
     },
     toogleLoading(){
       document.getElementById("loader").classList.toggle("active");
     },
     getTable (endpoint) {
         this.toogleLoading()
-        this.table_visibility = false;
+        this.table_visibility = false
         this.is_ProdActive = false
         this.is_SubProdActive = false
         this.is_SupplyActive = false
