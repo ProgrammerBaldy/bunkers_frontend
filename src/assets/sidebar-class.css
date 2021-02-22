@@ -122,7 +122,7 @@
   .navbar:hover .logo i {
     margin-left: 75%!important;
     transform: rotate(-360deg);
-    color:#eaf824!important;
+    color:hsl(48, 100%, 67%)!important;
   }
   
   .dark {

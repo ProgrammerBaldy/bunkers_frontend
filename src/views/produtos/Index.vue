@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="myrow">
-        <div v-on:click="getTable('products')" v-bind:class="{ active: is_ProdActive, inactive: !is_ProdActive}" class="card warning">
+        <div v-on:click="getTable('supplies')" v-bind:class="{ active: is_SupplyActive, inactive: !is_SupplyActive}" class="card mysuccess">
             <div class="myrow">
                 <div class="card-icon">
-                    <i class="fa fa-pizza-slice"></i>
+                    <i class="fa fa-boxes"></i>
                 </div>
                 <div class="card-text">
-                    <span>Produtos Finais</span>
+                    <span>Insumos</span>
                 </div>
             </div>
         </div>
@@ -21,13 +21,13 @@
                 </div>
             </div>
         </div>
-        <div v-on:click="getTable('supplies')" v-bind:class="{ active: is_SupplyActive, inactive: !is_SupplyActive}" class="card mysuccess">
+        <div v-on:click="getTable('products')" v-bind:class="{ active: is_ProdActive, inactive: !is_ProdActive}" class="card warning">
             <div class="myrow">
                 <div class="card-icon">
-                    <i class="fa fa-boxes"></i>
+                    <i class="fa fa-pizza-slice"></i>
                 </div>
                 <div class="card-text">
-                    <span>Insumos</span>
+                    <span>Produtos Finais</span>
                 </div>
             </div>
         </div>
@@ -36,6 +36,30 @@
         <div id="loader" class="loader">Loading...</div>
         <div v-if="table_visibility" class="customtable" id="customtable">
             <div v-if="is_SupplyActive">
+                <div class="mycolumn">
+                    <div class="to-end">
+                        <div class="mysuccess mt button">
+                          <div class="myrow">
+                            <div @click="$refs.addSupply.openModal()"><i class="fa fa-plus mr"></i>Adicionar</div>
+                          </div>
+                        </div>
+                    </div>
+                    <div>
+                        <vue-table-dynamic :params="params" @cell-change="onCellChange" ref="table">
+                            <template v-slot:column-4="{ props }">
+                              <div class="myrow">
+                                <div class="mydanger button" v-on:click="delete_cell(props.cellData)">
+                                  <i class="far fa-trash-alt text-black"></i>
+                                </div>
+                              </div>
+                            </template>
+                        </vue-table-dynamic>
+                    </div>
+                </div>
+            </div>
+
+            <!-- subprod -->
+            <div v-else-if="is_SubProdActive">
                 <div class="mycolumn">
                     <div>
                         <vue-table-dynamic :params="params" @cell-change="onCellChange" ref="table">
@@ -51,31 +75,7 @@
                     <div class="to-end">
                         <div class="mysuccess mt button">
                           <div class="myrow">
-                            <div @click="$refs.addSupply.openModal();ailton()"><i class="fa fa-plus mr"></i>Adicionar</div>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- subprod -->
-            <div v-else-if="is_SubProdActive">
-                <div class="mycolumn">
-                    <div>
-                        <vue-table-dynamic :params="params" @cell-change="onCellChange" ref="table">
-                            <template v-slot:column-4="{ props }">
-                              <div class="myrow">
-                                <div class="mydanger button" v-on:click="dele1te_cell(props.cellData)">
-                                  <i class="far fa-trash-alt text-black"></i>
-                                </div>
-                              </div>
-                            </template>
-                        </vue-table-dynamic>
-                    </div>
-                    <div class="to-end">
-                        <div class="mysuccess mt button">
-                          <div class="myrow">
-                            <div @click="$refs.addSubProd.openModal();ailton()"><i class="fa fa-plus mr"></i>Adicionar</div>
+                            <div @click="$refs.addSubProd.openModal();"><i class="fa fa-plus mr"></i>Adicionar</div>
                           </div>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                             <label>Insumo(s)</label>
                         </div>
                         <select name="" id="" class="form-control" v-model="item.supplyid">
-                            <option v-for="option in insumos" :value="option[0]" :key="option[4]">{{option[0] +' ('+ option[1] +')'}}</option>
+                            <option v-for="option in insumos" :value="option[4]" :key="option[4]">{{option[0] +' ('+ option[1] +')'}}</option>
                         </select>
                     </div>
                     <div class="flex-container-column">
@@ -301,16 +301,20 @@ export default {
     delete_cell: function (props) {
         this.toogleLoading()
         this.table_visibility = false
+        let param = ''
         switch (this.active_view) {
             case 'supplies':
+                break;
             case 'subproducts':
+                param = props
+                break;
             case 'products':
                 break;
             default :
                 this.active_view = ''
                 break;
         }
-        getAPI.delete("/"+this.active_view+"/", {
+        getAPI.delete("/"+this.active_view+"/"+param, {
                 headers: {
                     Authorization: `Bearer ${this.$store.state.accessToken}`
                 },
@@ -339,6 +343,7 @@ export default {
                 this.is_SupplyActive = true
                 break;
             case 'subproducts':
+                endpoint = 'subproducts_supplies'
                 this.is_SubProdActive = true
                 break;
             case 'products':
