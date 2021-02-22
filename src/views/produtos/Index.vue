@@ -65,6 +65,9 @@
                         <vue-table-dynamic :params="params" @cell-change="onCellChange" ref="table">
                             <template v-slot:column-4="{ props }">
                               <div class="myrow">
+                                <div class="blue button" @click="$refs.editSupply.openModal()" >
+                                  <i class="far fa-edit text-black"></i>
+                                </div>
                                 <div class="mydanger button" v-on:click="delete_cell(props.cellData)">
                                   <i class="far fa-trash-alt text-black"></i>
                                 </div>
@@ -132,7 +135,7 @@
       </template>
     </Modal>
 
-    <!-- subprod modal -->
+    <!-- subprod add modal -->
     <Modal ref="addSubProd">
       <template v-slot:header>
         <h1>Adicionar Produto Preparado</h1>
@@ -193,7 +196,70 @@
         </div>
       </template>
     </Modal>
-    <!-- end subprod modal -->
+    <!-- end subprod add modal -->
+
+    <!-- subprod edit modal -->
+    <Modal ref="editSubProd">
+      <template v-slot:header>
+        <h1>Adicionar Produto Preparado</h1>
+      </template>
+
+      <template v-slot:body>
+        <div>
+            <div class="modal-form">
+                <div class="mycolumn">
+                <label for="name">Nomea</label>
+                <input class="form-control" v-model="subproduct_name" type="text" id="name" required placeholder="Camarão Salteado, Massa de Pizza..">
+                </div>
+                <div class="mycolumn">
+                <label for="measure_unit">Unidade de Medida</label>
+                <input class="form-control" type="text" v-model="subproduct_measure_unit" id="measure_unit" required placeholder="kg, ml..">
+                </div>
+                <div class="mycolumn">
+                <label for="stock">Quantidade em Estoque</label>
+                <input class="form-control" type="number" min="0" step="0.01" v-model="subproduct_stock" id="stock" required placeholder="1.00, 3, 5.45...">
+                </div>
+                <div class="mycolumn">
+                <label for="average_cost">Custo Médio de Produção</label>
+                <input class="form-control" type="number" min="0" step="0.01" v-model="subproduct_average_cost" id="average_cost" required placeholder="Sem considerar os insumos!">
+                </div>
+            </div>
+            <div class="mt2"></div>
+            <div v-for="(item, index) in supply_rows" :key="`item-${index}`">
+                <div class="flex-container mt">
+                    <div class="flex-container-column">
+                        <div class="flex-item">
+                            <label>Insumo(s)</label>
+                        </div>
+                        <select name="" id="" class="form-control" v-model="item.supplyid">
+                            <option v-for="option in insumos" :value="option[4]" :key="option[4]">{{option[0] +' ('+ option[1] +')'}}</option>
+                        </select>
+                    </div>
+                    <div class="flex-container-column">
+                        <div class="flex-item">
+                            <label>Quantidade</label>
+                        </div>
+                        <input type="number" v-model="item.quantity" step="0.0001" min="0" class="form-control" placeholder="Quantidade">
+                    </div>
+                </div>
+            </div>
+            <div class="flex-container flex-right mt">
+                <div class="button blue" v-on:click="addRowInsumo()"><i class="fa fa-plus mr text-black"></i><span class="text-black regular-font">Adicionar Insumo</span></div>
+            </div>
+        </div>
+              
+      </template>
+
+      <template v-slot:footer>
+        <div>
+          <div class="myrow">
+            <div class="button mydanger" @click="$refs.addSupply.closeModal()"><i class="fa fa-ban mr text-black"></i><span class="text-black regular-font">Cancelar</span></div>
+            <div class="button mysuccess" @click="addSubProduct();$refs.addSupply.closeModal();"><i class="fa fa-save mr text-black"></i><span class="text-black regular-font">Salvar</span></div>
+          </div>
+        </div>
+      </template>
+    </Modal>
+    <!-- end subprod edit modal -->
   </div>
 </template>
 
@@ -359,6 +425,7 @@ export default {
         .then(response => {
             this.params.data = response.data.raw_data
             this.insumos = (endpoint == 'supplies') ? response.data.raw_data.slice(1) : this.insumos
+            this.params.edit = (endpoint == 'supplies') ? {column: [0, 1, 2, 3], cell: [[-1, -1]]} : ''
             this.header_keys = response.data.keys
             this.table_visibility = true;
         }).catch( () => {
