@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { getAPI } from "./axios-api";
-import router from './router'
+import router from "./router";
 
 Vue.use(Vuex);
 
@@ -84,9 +84,9 @@ export default new Vuex.Store({
             });
             resolve();
           })
-          .catch( () => {
+          .catch(() => {
             context.commit("destroyToken");
-            router.push({ name: "login" })
+            router.push({ name: "login" });
           });
       });
     }

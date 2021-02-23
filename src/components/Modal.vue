@@ -1,19 +1,19 @@
 <template>
   <transition name="fade">
     <div class="modal" v-if="show">
-      <div class="modal__backdrop" @click="closeModal()"/>
+      <div class="modal__backdrop" @click="closeModal()" />
 
       <div class="modal__dialog">
         <div class="modal__header">
-          <slot name="header"/>
+          <slot name="header" />
         </div>
 
         <div class="modal__body">
-          <slot name="body"/>
+          <slot name="body" />
         </div>
 
         <div class="modal__footer">
-          <slot name="footer"/>
+          <slot name="footer" />
         </div>
       </div>
     </div>
@@ -40,7 +40,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .modal {

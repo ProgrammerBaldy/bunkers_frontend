@@ -19,7 +19,7 @@ export default {
       })
       .then(response => {
         this.$store.state.APIData = response.data;
-      })
+      });
   },
   computed: mapState(["APIData"]),
   components: {}

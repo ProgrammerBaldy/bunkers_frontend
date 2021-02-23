@@ -49,7 +49,7 @@
   </div>
 </template>
 <style>
-@import '../assets/global-styles.css';
+@import "../assets/global-styles.css";
 </style>
 
 <script>
