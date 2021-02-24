@@ -4,6 +4,8 @@
     font-family: 'Open Sans';
     --text-primary: #b6b6b6;
     --text-secondary: #ececec;
+    --text-yellow: hsl(48, 100%, 67%, 0.7);
+    --text-yellow-100: hsl(48, 100%, 67%);
     --bg-primary: #23232e;
     --bg-secondary: #141418;
     --transition-speed: 600ms;
@@ -76,11 +78,16 @@
     background: var(--bg-secondary);
     color: var(--text-secondary);
   }
+  .nav-link:hover.nav-active {
+    filter: grayscale(0%) opacity(1);
+    background: var(--bg-secondary);
+    color: var(--text-yellow-100);
+  }
 
   .nav-active {
     filter: grayscale(0%) opacity(1);
     background: var(--bg-secondary);
-    color: var(--text-secondary);
+    color: var(--text-yellow);
   }
   
   .link-text {

@@ -49,15 +49,6 @@
       <div v-if="table_visibility" class="customtable" id="customtable">
         <div v-if="is_SupplyActive">
           <div class="mycolumn">
-            <div class="to-end">
-              <div class="mysuccess mt button">
-                <div class="myrow">
-                  <div @click="$refs.addSupply.openModal()">
-                    <i class="fa fa-plus mr"></i>Adicionar
-                  </div>
-                </div>
-              </div>
-            </div>
             <div>
               <vue-table-dynamic
                 :params="params"
@@ -75,6 +66,15 @@
                   </div>
                 </template>
               </vue-table-dynamic>
+            </div>
+            <div class="to-end">
+              <div class="mysuccess mt button">
+                <div class="myrow">
+                  <div @click="$refs.addSupply.openModal()">
+                    <i class="fa fa-plus mr"></i>Adicionar
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -539,6 +539,9 @@ export default {
       }
     };
   },
+  created() {
+      this.$store.commit('change_page','Produtos')
+  },
   mounted() {
     this.getTable("supplies");
   },
@@ -609,6 +612,7 @@ export default {
         recipe_final_weight: this.subproduct_recipe_final_weight_edit,
         supplies: this.supply_rows_edit
       };
+      console.log(data_obj)
       getAPI
         .patch("/subproducts/"+this.subprod_edit_id, data_obj, {
           headers: {

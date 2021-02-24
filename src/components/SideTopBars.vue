@@ -9,14 +9,14 @@
           </a>
         </li>
         <li class="nav-item">
-          <router-link to="/" exact class="nav-link nav-active">
+          <router-link to="/" exact class="nav-link" v-bind:class="{'nav-active': isactive('Home')}">
             <i class="fas fa-home"></i>
             <span class="link-text">Dashboard</span>
           </router-link>
         </li>
 
         <li class="nav-item">
-          <router-link to="/produtos/" exact class="nav-link">
+          <router-link to="/produtos/" exact v-bind:class="{'nav-active': isactive('Produtos')}" class="nav-link">
             <i class="fas fa-boxes"></i>
             <span class="link-text">Produtos</span>
           </router-link>
@@ -32,7 +32,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+      isactive(name) {
+          if (name == this.$store.state.current_page) {
+              return true
+          } else {
+              return false
+          }
+      }
+  }
+};
 </script>
 
 <style>

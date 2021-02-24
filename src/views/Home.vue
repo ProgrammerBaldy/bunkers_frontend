@@ -102,6 +102,7 @@ export default {
   },
   mounted() {
     this.loadChart();
+    this.$store.commit('change_page','Home')
   }
 };
 </script>

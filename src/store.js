@@ -9,9 +9,13 @@ export default new Vuex.Store({
   state: {
     accessToken: null,
     refreshToken: null,
-    APIData: ""
+    APIData: "",
+    current_page: ""
   },
   mutations: {
+    change_page(state, page) {
+        state.current_page = page
+    },
     updateStorage(state, { access, refresh }) {
       state.accessToken = access;
       state.refreshToken = refresh;
