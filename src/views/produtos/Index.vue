@@ -139,6 +139,15 @@
               </div>
             </template>
           </vue-table-dynamic>
+        <div class="to-end">
+            <div class="mysuccess mt button">
+            <div class="myrow">
+                <div @click="$refs.addProduct.openModal()">
+                <i class="fa fa-plus mr"></i>Adicionar
+                </div>
+            </div>
+            </div>
+        </div>
         </div>
       </div>
     </div>
@@ -486,6 +495,178 @@
       </template>
     </Modal>
     <!-- end subprod edit modal -->
+
+    <!-- Product add modal -->
+    <Modal ref="addProduct">
+      <template v-slot:header>
+        <h1>Adicionar Produto Final</h1>
+      </template>
+
+      <template v-slot:body>
+        <div>
+          <div class="modal-form">
+            <div class="mycolumn">
+              <label for="name">Nome</label>
+              <input
+                class="form-control"
+                v-model="product_name"
+                type="text"
+                id="name"
+                required
+                placeholder="Camarão Salteado, Massa de Pizza.."
+              />
+            </div>
+            <div class="mycolumn">
+              <label for="measure_unit">Unidade de Medida</label>
+              <input
+                class="form-control"
+                type="text"
+                v-model="product_measure_unit"
+                id="measure_unit"
+                required
+                placeholder="kg, ml.."
+              />
+            </div>
+            <div class="mycolumn">
+              <label for="stock">Quantidade em Estoque</label>
+              <input
+                class="form-control"
+                type="number"
+                min="0"
+                step="0.01"
+                v-model="product_stock"
+                id="stock"
+                required
+                placeholder="1.00, 3, 5.45..."
+              />
+            </div>
+            <div class="mycolumn">
+              <label for="selling_price">Preço de Venda</label>
+              <input
+                class="form-control"
+                type="number"
+                min="0"
+                step="0.01"
+                v-model="product_selling_price"
+                id="selling_price"
+                required
+                placeholder="S/ insumos e Produtos Prepadados!"
+              />
+            </div>
+          </div>
+          <div class="mt2">
+              <h2>Insumos</h2>
+          </div>
+          <div v-for="(item, index) in product_supply_rows" :key="`insumo-${index}`">
+            <div class="flex-container mt">
+              <div class="flex-container-column">
+                <div class="flex-item">
+                  <label>Insumo</label>
+                </div>
+                <select
+                  name=""
+                  id=""
+                  class="form-control"
+                  v-model="item.supplyid"
+                >
+                  <option
+                    v-for="option in insumos"
+                    :value="option[4]"
+                    :key="option[4]"
+                    >{{ option[0] + " (" + option[1] + ")" }}</option
+                  >
+                </select>
+              </div>
+              <div class="flex-container-column">
+                <div class="flex-item">
+                  <label>Quantidade</label>
+                </div>
+                <input
+                  type="number"
+                  v-model="item.quantity"
+                  step="0.0001"
+                  min="0"
+                  class="form-control"
+                  placeholder="Quantidade"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="flex-container flex-right mt">
+            <div class="button blue" v-on:click="addRowProdutoInsumo()">
+              <i class="fa fa-plus mr text-black"></i
+              ><span class="text-black regular-font">Adicionar Insumo</span>
+            </div>
+          </div>
+          <div class="mt2">
+              <h2>Produtos Preparados</h2>
+          </div>
+          <div v-for="(item, index) in product_subproducts_rows" :key="`subprod-${index}`">
+            <div class="flex-container mt">
+              <div class="flex-container-column">
+                <div class="flex-item">
+                  <label>Produto Preparado</label>
+                </div>
+                <select
+                  name=""
+                  id=""
+                  class="form-control"
+                  v-model="item.subproductid"
+                >
+                  <option
+                    v-for="option in subproducts"
+                    :value="option[4]"
+                    :key="option[4]"
+                    >{{ option[0] + " (" + option[1] + ")" }}</option
+                  >
+                </select>
+              </div>
+              <div class="flex-container-column">
+                <div class="flex-item">
+                  <label>Quantidade</label>
+                </div>
+                <input
+                  type="number"
+                  v-model="item.quantity"
+                  step="0.0001"
+                  min="0"
+                  class="form-control"
+                  placeholder="Quantidade"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="flex-container flex-right mt">
+            <div class="button blue" v-on:click="addRowProdutoSubproduto()">
+              <i class="fa fa-plus mr text-black"></i
+              ><span class="text-black regular-font">Adicionar Produto Preparado</span>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template v-slot:footer>
+        <div>
+          <div class="myrow">
+            <div class="button mydanger" @click="$refs.addProduct.closeModal()">
+              <i class="fa fa-ban mr text-black"></i
+              ><span class="text-black regular-font">Cancelar</span>
+            </div>
+            <div
+              class="button mysuccess"
+              @click="
+                addProduct();
+                $refs.addProduct.closeModal();
+              "
+            >
+              <i class="fa fa-save mr text-black"></i
+              ><span class="text-black regular-font">Salvar</span>
+            </div>
+          </div>
+        </div>
+      </template>
+    </Modal>
+    <!-- end subprod add modal -->
   </div>
 </template>
 
@@ -519,8 +700,15 @@ export default {
       supply_measure_unit: "",
       supply_stock: "",
       supply_average_cost: "",
+      product_name: "",
+      product_measure_unit: "",
+      product_stock: "",
+      product_selling_price: "",
+      product_supply_rows: [{ supplyid: "", quantity: 0 }],
+      product_subproducts_rows: [{ subproductid: "", quantity: 0 }],
       header_keys: [],
       insumos: [],
+      subproducts: [],
       params: {
         data: "",
         header: "row",
@@ -547,6 +735,12 @@ export default {
   },
   components: { VueTableDynamic, Modal },
   methods: {
+    addRowProdutoInsumo: function() {
+      this.product_supply_rows.push({ supplyid: "", quantity: 0 });
+    },
+    addRowProdutoSubproduto: function() {
+      this.product_subproducts_rows.push({ supplyid: "", quantity: 0 });
+    },
     open_prod_edit: function(id) {
       getAPI
         .get("subproducts/"+id, {
@@ -575,9 +769,6 @@ export default {
     },
     addRowInsumo: function() {
       this.supply_rows.push({ supplyid: "", quantity: 0 });
-    },
-    ailton: function() {
-      console.log(this.insumos);
     },
     addSupply: function() {
       this.toogleLoading();
@@ -636,6 +827,31 @@ export default {
         average_cost: this.subproduct_average_cost,
         supplies: this.supply_rows,
         recipe_final_weight: this.subproduct_recipe_final_weight_edit,
+      };
+      getAPI
+        .post("/" + this.active_view + "/", data_obj, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.accessToken}`
+          }
+        })
+        .then(() => {
+          this.getTable(this.active_view);
+        })
+        .finally(() => {
+          this.toogleLoading();
+        });
+    },
+    addProduct: function() {
+      this.toogleLoading();
+      this.table_visibility = false;
+      let data_obj = {
+        name: this.product_name,
+        measure_unit: this.product_measure_unit,
+        average_cost: 0,
+        stock: this.product_stock,
+        selling_price: this.product_selling_price,
+        supplies: this.product_supply_rows,
+        subproducts: this.product_subproducts_rows,
       };
       getAPI
         .post("/" + this.active_view + "/", data_obj, {
@@ -722,6 +938,10 @@ export default {
             endpoint == "supplies"
               ? response.data.raw_data.slice(1)
               : this.insumos;
+          this.subproducts =
+            endpoint != "supplies"
+              ? response.data.raw_data.slice(1)
+              : this.subproducts;
           this.params.edit =
             endpoint == "supplies"
               ? { column: [0, 1, 2, 3], cell: [[-1, -1]] }
