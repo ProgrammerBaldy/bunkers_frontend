@@ -88,11 +88,11 @@
                 @cell-change="onCellChange"
                 ref="table"
               >
-                <template v-slot:column-4="{ props }">
+                <template v-slot:column-5="{ props }">
                   <div class="myrow">
                     <div
                       class="blue button"
-                      @click="open_prod_edit(props.cellData)"
+                      @click="open_subprod_edit(props.cellData)"
                     >
                       <i class="far fa-edit text-black"></i>
                     </div>
@@ -125,16 +125,16 @@
             @cell-change="onCellChange"
             ref="table"
           >
-            <template v-slot:column-4="{ props }">
+            <template v-slot:column-3="{ props }">
               <div class="myrow">
-                <button class="blue tableicon" v-on:click="edit(props)">
-                  <i class="fa fa-edit"></i>
+                <button class="blue button" v-on:click="edit_product(props.cellData)">
+                  <i class="far fa-edit text-black"></i>
                 </button>
                 <button
-                  class="mydanger tableicon"
+                  class="mydanger button"
                   v-on:click="delete_cell(props.cellData)"
                 >
-                  <i class="fa fa-trash"></i>
+                  <i class="far fa-trash-alt text-black"></i>
                 </button>
               </div>
             </template>
@@ -374,7 +374,7 @@
     <!-- subprod edit modal -->
     <Modal ref="editSubProd">
       <template v-slot:header>
-        <h1>Adicionar Produto Preparado</h1>
+        <h1>Editar Produto Preparado</h1>
       </template>
 
       <template v-slot:body>
@@ -666,7 +666,180 @@
         </div>
       </template>
     </Modal>
-    <!-- end subprod add modal -->
+    <!-- end prod add modal -->
+
+    
+    <!-- Product edit modal -->
+    <Modal ref="editProduct">
+      <template v-slot:header>
+        <h1>Editar Produto Final</h1>
+      </template>
+
+      <template v-slot:body>
+        <div>
+          <div class="modal-form">
+            <div class="mycolumn">
+              <label for="name">Nome</label>
+              <input
+                class="form-control"
+                v-model="product_name_edit"
+                type="text"
+                id="name"
+                required
+                placeholder="Camarão Salteado, Massa de Pizza.."
+              />
+            </div>
+            <div class="mycolumn">
+              <label for="measure_unit">Unidade de Medida</label>
+              <input
+                class="form-control"
+                type="text"
+                v-model="product_measure_unit_edit"
+                id="measure_unit"
+                required
+                placeholder="kg, ml.."
+              />
+            </div>
+            <div class="mycolumn">
+              <label for="stock">Quantidade em Estoque</label>
+              <input
+                class="form-control"
+                type="number"
+                min="0"
+                step="0.01"
+                v-model="product_stock_edit"
+                id="stock"
+                required
+                placeholder="1.00, 3, 5.45..."
+              />
+            </div>
+            <div class="mycolumn">
+              <label for="selling_price">Preço de Venda</label>
+              <input
+                class="form-control"
+                type="number"
+                min="0"
+                step="0.01"
+                v-model="product_selling_price_edit"
+                id="selling_price"
+                required
+                placeholder="S/ insumos e Produtos Prepadados!"
+              />
+            </div>
+          </div>
+          <div class="mt2">
+              <h2>Insumos</h2>
+          </div>
+          <div v-for="(item, index) in product_supply_rows_edit" :key="`insumo2-${index}`">
+            <div class="flex-container mt">
+              <div class="flex-container-column">
+                <div class="flex-item">
+                  <label>Insumo</label>
+                </div>
+                <select
+                  name=""
+                  id=""
+                  class="form-control"
+                  v-model="item.supplyid"
+                >
+                  <option
+                    v-for="option in insumos"
+                    :value="option[4]"
+                    :key="option[4]"
+                    >{{ option[0] + " (" + option[1] + ")" }}</option
+                  >
+                </select>
+              </div>
+              <div class="flex-container-column">
+                <div class="flex-item">
+                  <label>Quantidade</label>
+                </div>
+                <input
+                  type="number"
+                  v-model="item.quantity"
+                  step="0.0001"
+                  min="0"
+                  class="form-control"
+                  placeholder="Quantidade"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="flex-container flex-right mt">
+            <div class="button blue" v-on:click="addRowProdutoInsumo_edit()">
+              <i class="fa fa-plus mr text-black"></i
+              ><span class="text-black regular-font">Adicionar Insumo</span>
+            </div>
+          </div>
+          <div class="mt2">
+              <h2>Produtos Preparados</h2>
+          </div>
+          <div v-for="(item, index) in product_subproducts_rows_edit" :key="`subprod2-${index}`">
+            <div class="flex-container mt">
+              <div class="flex-container-column">
+                <div class="flex-item">
+                  <label>Produto Preparado</label>
+                </div>
+                <select
+                  name=""
+                  id=""
+                  class="form-control"
+                  v-model="item.subproductid"
+                >
+                  <option
+                    v-for="option in subproducts"
+                    :value="option[5]"
+                    :key="option[5]"
+                    >{{ option[0] + " (" + option[1] + ")" }}</option
+                  >
+                </select>
+              </div>
+              <div class="flex-container-column">
+                <div class="flex-item">
+                  <label>Quantidade</label>
+                </div>
+                <input
+                  type="number"
+                  v-model="item.quantity"
+                  step="0.0001"
+                  min="0"
+                  class="form-control"
+                  placeholder="Quantidade"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="flex-container flex-right mt">
+            <div class="button blue" v-on:click="addRowProdutoSubproduto_edit()">
+              <i class="fa fa-plus mr text-black"></i
+              ><span class="text-black regular-font">Adicionar Produto Preparado</span>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template v-slot:footer>
+        <div>
+          <div class="myrow">
+            <div class="button mydanger" @click="$refs.addProduct.closeModal()">
+              <i class="fa fa-ban mr text-black"></i
+              ><span class="text-black regular-font">Cancelar</span>
+            </div>
+            <div
+              class="button mysuccess"
+              @click="
+                editProduct();
+                $refs.editProduct.closeModal();
+              "
+            >
+              <i class="fa fa-save mr text-black"></i
+              ><span class="text-black regular-font">Salvar</span>
+            </div>
+          </div>
+        </div>
+      </template>
+    </Modal>
+    <!-- end prod edit modal -->
   </div>
 </template>
 
@@ -706,6 +879,13 @@ export default {
       product_selling_price: "",
       product_supply_rows: [{ supplyid: "", quantity: 0 }],
       product_subproducts_rows: [{ subproductid: "", quantity: 0 }],
+      product_name_edit: "",
+      product_measure_unit_edit: "",
+      product_stock_edit: "",
+      product_selling_price_edit: "",
+      product_supply_rows_edit: [{ supplyid: "", quantity: 0 }],
+      product_subproducts_rows_edit: [{ subproductid: "", quantity: 0 }],
+      prod_edit_id : "",
       header_keys: [],
       insumos: [],
       subproducts: [],
@@ -741,7 +921,13 @@ export default {
     addRowProdutoSubproduto: function() {
       this.product_subproducts_rows.push({ supplyid: "", quantity: 0 });
     },
-    open_prod_edit: function(id) {
+    addRowProdutoInsumo_edit: function() {
+      this.product_supply_rows_edit.push({ supplyid: "", quantity: 0 });
+    },
+    addRowProdutoSubproduto_edit: function() {
+      this.product_subproducts_rows_edit.push({ supplyid: "", quantity: 0 });
+    },
+    open_subprod_edit: function(id) {
       getAPI
         .get("subproducts/"+id, {
           headers: {
@@ -749,17 +935,48 @@ export default {
           }
         })
         .then((response) => {
+          console.log( response.data.subproduct[0])
           this.subprod_edit_id = id
           this.subproduct_name_edit = response.data.subproduct[0][0]
           this.subproduct_measure_unit_edit = response.data.subproduct[0][1]
           this.subproduct_stock_edit = response.data.subproduct[0][2]
           this.subproduct_average_cost_edit = response.data.subproduct[0][3]
+          this.subproduct_recipe_final_weight_edit = response.data.subproduct[0][4]
           let dummy = []
           for (let i = 0; i < response.data.supplies.length; i++) {
               dummy.push({ supplyid: response.data.supplies[i][4], quantity: response.data.supplies[i][2] })
           }
           this.supply_rows_edit = dummy
           this.$refs.editSubProd.openModal();
+        })
+        .finally(() => {
+        });
+    },
+    edit_product: function(id) {
+      getAPI
+        .get("products/"+id, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.accessToken}`
+          }
+        })
+        .then((response) => {
+          this.prod_edit_id = id
+          this.product_name_edit = response.data.product[0][0]
+          this.product_measure_unit_edit = response.data.product[0][1]
+          this.product_stock_edit = response.data.product[0][2]
+          this.product_selling_price_edit = response.data.product[0][3]
+          this.product_recipe_final_weight_edit = response.data.product[0][4]
+          let dummy = []
+          for (let i = 0; i < response.data.supplies.length; i++) {
+              dummy.push({ supplyid: response.data.supplies[i][3], quantity: response.data.supplies[i][2] })
+          }
+          this.product_supply_rows_edit = dummy
+          dummy = []
+          for (let i = 0; i < response.data.subproducts.length; i++) {
+              dummy.push({ subproductid: response.data.subproducts[i][3], quantity: response.data.subproducts[i][2] })
+          }
+          this.product_subproducts_rows_edit = dummy
+          this.$refs.editProduct.openModal();
         })
         .finally(() => {
         });
@@ -866,6 +1083,31 @@ export default {
           this.toogleLoading();
         });
     },
+    editProduct: function() {
+      this.toogleLoading();
+      this.table_visibility = false;
+      let data_obj = {
+        name: this.product_name_edit,
+        measure_unit: this.product_measure_unit_edit,
+        average_cost: 0,
+        stock: this.product_stock_edit,
+        selling_price: this.product_selling_price_edit,
+        supplies: this.product_supply_rows_edit,
+        subproducts: this.product_subproducts_rows_edit,
+      };
+      getAPI
+        .patch("/" + this.active_view + "/"+this.prod_edit_id, data_obj, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.accessToken}`
+          }
+        })
+        .then(() => {
+          this.getTable(this.active_view);
+        })
+        .finally(() => {
+          this.toogleLoading();
+        });
+    },
     edit: function(props) {
       // loop through props.rowData to get the values
       console.log(props);
@@ -882,6 +1124,7 @@ export default {
           param = props;
           break;
         case "products":
+          param = props;
           break;
         default:
           this.active_view = "";
@@ -922,6 +1165,7 @@ export default {
           this.is_SubProdActive = true;
           break;
         case "products":
+          endpoint = "products_supplies";
           this.is_ProdActive = true;
           break;
         default:
@@ -934,12 +1178,13 @@ export default {
         })
         .then(response => {
           this.params.data = response.data.raw_data;
+          console.log(this.params.data)
           this.insumos =
             endpoint == "supplies"
               ? response.data.raw_data.slice(1)
               : this.insumos;
           this.subproducts =
-            endpoint != "supplies"
+            endpoint == "subproducts_supplies"
               ? response.data.raw_data.slice(1)
               : this.subproducts;
           this.params.edit =
