@@ -615,8 +615,8 @@
                 >
                   <option
                     v-for="option in subproducts"
-                    :value="option[4]"
-                    :key="option[4]"
+                    :value="option[5]"
+                    :key="option[5]"
                     >{{ option[0] + " (" + option[1] + ")" }}</option
                   >
                 </select>
@@ -919,13 +919,13 @@ export default {
       this.product_supply_rows.push({ supplyid: "", quantity: 0 });
     },
     addRowProdutoSubproduto: function() {
-      this.product_subproducts_rows.push({ supplyid: "", quantity: 0 });
+      this.product_subproducts_rows.push({ subproductid: "", quantity: 0 });
     },
     addRowProdutoInsumo_edit: function() {
       this.product_supply_rows_edit.push({ supplyid: "", quantity: 0 });
     },
     addRowProdutoSubproduto_edit: function() {
-      this.product_subproducts_rows_edit.push({ supplyid: "", quantity: 0 });
+      this.product_subproducts_rows_edit.push({ subproductid: "", quantity: 0 });
     },
     open_subprod_edit: function(id) {
       getAPI
@@ -1043,7 +1043,7 @@ export default {
         stock: this.subproduct_stock,
         average_cost: this.subproduct_average_cost,
         supplies: this.supply_rows,
-        recipe_final_weight: this.subproduct_recipe_final_weight_edit,
+        recipe_final_weight: this.subproduct_recipe_final_weight,
       };
       getAPI
         .post("/" + this.active_view + "/", data_obj, {
