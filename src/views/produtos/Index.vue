@@ -337,6 +337,11 @@
                   placeholder="Quantidade"
                 />
               </div>
+              <div class="flex-container-trash">
+                <div class="flex-item danger" @click="removesubproduct(index)">
+                  <i class="fa fa-trash-alt text-danger"></i>
+                </div>
+              </div>
             </div>
           </div>
           <div class="flex-container flex-right mt">
@@ -458,6 +463,11 @@
                             <label>Quantidade</label>
                         </div>
                         <input type="number" v-model="item.quantity" step="0.0001" min="0" class="form-control" placeholder="Quantidade">
+                    </div>
+                    <div class="flex-container-trash">
+                      <div class="flex-item danger" @click="removesubproduct_edit(index)">
+                        <i class="fa fa-trash-alt text-danger"></i>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -590,6 +600,11 @@
                   placeholder="Quantidade"
                 />
               </div>
+              <div class="flex-container-trash">
+                <div class="flex-item danger" @click="removeproduct_supply(index)">
+                  <i class="fa fa-trash-alt text-danger"></i>
+                </div>
+              </div>
             </div>
           </div>
           <div class="flex-container flex-right mt">
@@ -634,12 +649,17 @@
                   placeholder="Quantidade"
                 />
               </div>
+              <div class="flex-container-trash">
+                <div class="flex-item danger" @click="removeproduct_subproduct(index)">
+                  <i class="fa fa-trash-alt text-danger"></i>
+                </div>
+              </div>
             </div>
           </div>
           <div class="flex-container flex-right mt">
             <div class="button blue" v-on:click="addRowProdutoSubproduto()">
-              <i class="fa fa-plus mr text-black"></i
-              ><span class="text-black regular-font">Adicionar Produto Preparado</span>
+              <i class="fa fa-plus mr text-black"></i>
+              <span class="text-black regular-font">Adicionar Produto Preparado</span>
             </div>
           </div>
         </div>
@@ -763,6 +783,11 @@
                   placeholder="Quantidade"
                 />
               </div>
+              <div class="flex-container-trash">
+                <div class="flex-item danger" @click="removeproduct_supply_edit(index)">
+                  <i class="fa fa-trash-alt text-danger"></i>
+                </div>
+              </div>
             </div>
           </div>
           <div class="flex-container flex-right mt">
@@ -806,6 +831,11 @@
                   class="form-control"
                   placeholder="Quantidade"
                 />
+              </div>
+              <div class="flex-container-trash">
+                <div class="flex-item danger" @click="removeproduct_subproduct_edit(index)">
+                  <i class="fa fa-trash-alt text-danger"></i>
+                </div>
               </div>
             </div>
           </div>
@@ -912,9 +942,28 @@ export default {
   },
   mounted() {
     this.getTable("supplies");
+    this.getsubproducts();
   },
   components: { VueTableDynamic, Modal },
   methods: {
+    removesubproduct_edit: function(index) {
+      this.supply_rows_edit.splice(index, 1);
+    },
+    removesubproduct: function(index) {
+      this.supply_rows.splice(index, 1);
+    },
+    removeproduct_subproduct_edit: function(index) {
+      this.product_subproducts_rows_edit.splice(index, 1);
+    },
+    removeproduct_subproduct: function(index) {
+      this.product_subproducts_rows.splice(index, 1);
+    },
+    removeproduct_supply_edit: function(index) {
+      this.product_supply_rows_edit.splice(index, 1);
+    },
+    removeproduct_supply: function(index) {
+      this.product_supply_rows.splice(index, 1);
+    },
     addRowProdutoInsumo: function() {
       this.product_supply_rows.push({ supplyid: "", quantity: 0 });
     },
@@ -978,8 +1027,7 @@ export default {
           this.product_subproducts_rows_edit = dummy
           this.$refs.editProduct.openModal();
         })
-        .finally(() => {
-        });
+        .finally(() => {});
     },
     addRowEditInsumo: function() {
       this.supply_rows_edit.push({ supplyid: "", quantity: 0 });
@@ -1007,6 +1055,10 @@ export default {
         })
         .finally(() => {
           this.toogleLoading();
+          this.supply_name = ""
+          this.supply_measure_unit = ""
+          this.supply_stock = ""
+          this.supply_average_cost = ""
         });
     },
     editSubProduct: function() {
@@ -1032,6 +1084,12 @@ export default {
         })
         .finally(() => {
           this.toogleLoading();
+          this.subproduct_name_edit = ""
+          this.subproduct_measure_unit_edit = ""
+          this.subproduct_stock_edit = ""
+          this.subproduct_average_cost_edit = ""
+          this.subproduct_recipe_final_weight_edit = ""
+          this.supply_rows_edit = [{ supplyid: "", quantity: 0 }]
         });
     },
     addSubProduct: function() {
@@ -1056,6 +1114,12 @@ export default {
         })
         .finally(() => {
           this.toogleLoading();
+          this.subproduct_name = ""
+          this.subproduct_measure_unit = ""
+          this.subproduct_stock = ""
+          this.subproduct_average_cost = ""
+          this.subproduct_recipe_final_weight = ""
+          this.supply_rows = [{ supplyid: "", quantity: 0 }]
         });
     },
     addProduct: function() {
@@ -1081,6 +1145,12 @@ export default {
         })
         .finally(() => {
           this.toogleLoading();
+          this.product_name = ""
+          this.product_measure_unit = ""
+          this.product_stock = ""
+          this.product_selling_price = ""
+          this.product_supply_rows = [{ supplyid: "", quantity: 0 }]
+          this.product_subproducts_rows = [{ subproductid: "", quantity: 0 }]
         });
     },
     editProduct: function() {
@@ -1106,6 +1176,12 @@ export default {
         })
         .finally(() => {
           this.toogleLoading();
+          this.product_name_edit = ""
+          this.product_measure_unit_edit = ""
+          this.product_stock_edit = ""
+          this.product_selling_price_edit = ""
+          this.product_supply_rows_edit = ""
+          this.product_subproducts_rows_edit = ""
         });
     },
     edit: function(props) {
@@ -1199,6 +1275,19 @@ export default {
         })
         .finally(() => {
           this.toogleLoading();
+        });
+    },
+    getsubproducts() {
+      getAPI
+        .get("/subproducts_supplies/", {
+          headers: { Authorization: `Bearer ${this.$store.state.accessToken}` }
+        })
+        .then(response => {
+          this.subproducts = response.data.raw_data.slice(1)
+        })
+        .catch(() => {
+        })
+        .finally(() => {
         });
     },
     onCellChange(rowIndex, columnIndex, data) {

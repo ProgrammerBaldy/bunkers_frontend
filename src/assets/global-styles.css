@@ -97,6 +97,19 @@
       flex: 0 45%;
       margin-left: 1%;
   }
+  .flex-container-trash{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex: 0 5%;
+    margin-left: 2%;
+    justify-content: end;
+    align-self: center;
+  }
+  .flex-container-trash:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+  }
   .flex-right {
       justify-items: flex-end;
       justify-content: flex-end;
