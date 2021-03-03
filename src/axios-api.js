@@ -2,7 +2,7 @@ import axios from "axios";
 import router from "./router";
 
 const getAPI = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://bunkers-backend.herokuapp.com",
   timeout: 60000
 });
 
