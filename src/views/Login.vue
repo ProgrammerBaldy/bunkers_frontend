@@ -37,8 +37,8 @@
           </div>
         </div>
         <div class="field">
-          <div v-if="incorrectAuth" class="mydanger">
-            <p><strong>Login e/ou senha incorretos!</strong></p>
+          <div v-if="incorrectAuth">
+            <p><strong class="text-danger">Login e/ou senha incorretos!</strong></p>
           </div>
           <button class="button warning" id="loginbtn">
             <i id="spinner" class="fa fa-spinner"></i><strong>Login</strong>

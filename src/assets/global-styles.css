@@ -97,6 +97,13 @@
       flex: 0 45%;
       margin-left: 1%;
   }
+  .flex-apart{
+    justify-content: space-between;
+  }
+  .flex-center{
+    align-content: center;
+    align-items: center;
+  }
   .flex-container-trash{
     display: flex;
     flex-direction: column;
@@ -117,6 +124,9 @@
   .mycolumn {
     display: flex;
     flex-direction: column;  
+  }
+  .overflow-y-scroll {
+    overflow-y: scroll;
   }
   .black {
     background: hsl(0, 0%, 21%);

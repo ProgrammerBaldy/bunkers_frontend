@@ -3,6 +3,7 @@ import router from "./router";
 
 const getAPI = axios.create({
   baseURL: "https://bunkers-backend.herokuapp.com",
+  //baseURL: "http://localhost:8000/",
   timeout: 60000
 });
 

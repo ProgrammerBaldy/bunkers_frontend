@@ -14,11 +14,16 @@
             <span class="link-text">Dashboard</span>
           </router-link>
         </li>
-
         <li class="nav-item">
           <router-link to="/produtos/" exact v-bind:class="{'nav-active': isactive('Produtos')}" class="nav-link">
             <i class="fas fa-boxes"></i>
             <span class="link-text">Produtos</span>
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/clientes/" exact v-bind:class="{'nav-active': isactive('Clientes')}" class="nav-link">
+            <i class="fas fa-users"></i>
+            <span class="link-text">Clientes</span>
           </router-link>
         </li>
         <li class="nav-item" id="themeButton">

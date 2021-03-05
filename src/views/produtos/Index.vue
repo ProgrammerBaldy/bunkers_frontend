@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    <div class="container2 mt">
+    <div class="container2 mt overflow-scroll">
       <div id="loader" class="loader">Loading...</div>
       <div v-if="table_visibility" class="customtable" id="customtable">
         <div v-if="is_SupplyActive">

@@ -4,8 +4,9 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
 import Supplies from "../views/Supplies.vue";
-import Ailton from "../views/Ailton.vue";
+//import Ailton from "../views/Ailton.vue";
 import Produtos from "../views/produtos/Index.vue";
+import Clientes from "../views/clientes/Index.vue";
 
 Vue.use(VueRouter);
 
@@ -37,9 +38,9 @@ const routes = [
     }
   },
   {
-    path: "/ailton",
-    name: "ailton",
-    component: Ailton,
+    path: "/clientes/",
+    name: "clientes",
+    component: Clientes,
     meta: {
       requiresLogin: true
     }
